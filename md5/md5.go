@@ -68,7 +68,7 @@ func AddPadding(input []byte) []byte {
 //Step 2
 func AppendLength(input, padded []byte) []byte {
 	inputLen := make([]byte, 4)
-	binary.LittleEndian.PutUint32(inputLen, uint32(len(input)))
+	binary.LittleEndian.PutUint32(inputLen, uint32(8*len(input)))
 
 	padded = append(padded, inputLen...)
 	padded = append(padded, 0x0, 0x0, 0x0, 0x0)
@@ -93,6 +93,11 @@ func fi(x, y, z uint32) uint32 {
 	return y | (x | ^z)
 }
 
+// not SSD one, bit rotate for short.
+func bitrot32(a uint32, s uint) uint32 {
+	return a<<s | a>>(32-s)
+}
+
 //Step 4
 func Digest(input []byte) (res [4]uint32) {
 	uintInput := Bytes2Uints(input)
@@ -115,19 +120,19 @@ func Digest(input []byte) (res [4]uint32) {
 		dd := d
 
 		r1 := func(a, b, c, d uint32, k, s, i uint) uint32 {
-			return b + ((a + ff(b, c, d) + X[k] + Table[i]) << s)
+			return b + bitrot32(a+ff(b, c, d)+X[k]+Table[i], s)
 		}
 
 		r2 := func(a, b, c, d uint32, k, s, i uint) uint32 {
-			return b + ((a + fg(b, c, d) + X[k] + Table[i]) << s)
+			return b + bitrot32(a+fg(b, c, d)+X[k]+Table[i], s)
 		}
 
 		r3 := func(a, b, c, d uint32, k, s, i uint) uint32 {
-			return b + ((a + fh(b, c, d) + X[k] + Table[i]) << s)
+			return b + bitrot32(a+fh(b, c, d)+X[k]+Table[i], s)
 		}
 
 		r4 := func(a, b, c, d uint32, k, s, i uint) uint32 {
-			return b + ((a + fi(b, c, d) + X[k] + Table[i]) << s)
+			return b + bitrot32(a+fi(b, c, d)+X[k]+Table[i], s)
 		}
 
 		// Round 1
@@ -218,6 +223,7 @@ func Digest(input []byte) (res [4]uint32) {
 		b = b + bb
 		c = c + cc
 		d = d + dd
+
 	}
 
 	res[0] = a
