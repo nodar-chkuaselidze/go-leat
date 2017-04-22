@@ -235,7 +235,7 @@ func Digest(input []byte) (res [4]uint32) {
 }
 
 // Step Hex
-func Uint32hex(input [4]uint32) (bytes [16]byte) {
+func Uint32Bytes(input [4]uint32) (bytes [16]byte) {
 	binary.LittleEndian.PutUint32(bytes[0:4], input[0])
 	binary.LittleEndian.PutUint32(bytes[4:8], input[1])
 	binary.LittleEndian.PutUint32(bytes[8:12], input[2])
