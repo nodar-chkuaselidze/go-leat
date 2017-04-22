@@ -90,7 +90,7 @@ func fh(x, y, z uint32) uint32 {
 }
 
 func fi(x, y, z uint32) uint32 {
-	return y | (x | ^z)
+	return y ^ (x | ^z)
 }
 
 // not SSD one, bit rotate for short.
@@ -164,7 +164,7 @@ func Digest(input []byte) (res [4]uint32) {
 
 		a = r2(a, b, c, d, 5, 5, 21)
 		d = r2(d, a, b, c, 10, 9, 22)
-		c = r2(c, d, a, b, 15, 1, 23)
+		c = r2(c, d, a, b, 15, 14, 23)
 		b = r2(b, c, d, a, 4, 20, 24)
 
 		a = r2(a, b, c, d, 9, 5, 25)
