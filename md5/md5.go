@@ -5,13 +5,14 @@ import (
 	"math"
 )
 
-// MD5 Implementation
+// Implementation of RFC1321
 // Goal isn't to have fully functioning implementation, nor speed
 // And MUST NOT be used in production or anywhere near that
 
 // Limits:
 //  Input can't be more than 2^32, this limitation is imposed
 // by golang []bytes
+// (could be solved by implementing block by block processing, but not important right now)
 
 const (
 	A = uint32(0x67452301)
@@ -231,6 +232,14 @@ func Digest(input []byte) (res [4]uint32) {
 	res[2] = c
 	res[3] = d
 
+	return
+}
+
+func Sum(input []byte) (bytes [16]byte) {
+	padded := AddPadding(input)
+	lenAdded := AppendLength(input, padded)
+	digest := Digest(lenAdded)
+	bytes = Uint32Bytes(digest)
 	return
 }
 
