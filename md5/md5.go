@@ -67,9 +67,9 @@ func AddPadding(input []byte) []byte {
 }
 
 //Step 2
-func AppendLength(input, padded []byte) []byte {
+func AppendLength(length int, padded []byte) []byte {
 	inputLen := make([]byte, 4)
-	binary.LittleEndian.PutUint32(inputLen, uint32(8*len(input)))
+	binary.LittleEndian.PutUint32(inputLen, 8*uint32(length))
 
 	padded = append(padded, inputLen...)
 	padded = append(padded, 0x0, 0x0, 0x0, 0x0)
@@ -237,7 +237,7 @@ func Digest(input []byte) (res [4]uint32) {
 
 func Sum(input []byte) (bytes [16]byte) {
 	padded := AddPadding(input)
-	lenAdded := AppendLength(input, padded)
+	lenAdded := AppendLength(len(input), padded)
 	digest := Digest(lenAdded)
 	bytes = Uint32Bytes(digest)
 	return
