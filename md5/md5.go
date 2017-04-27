@@ -100,7 +100,7 @@ func bitrot32(a uint32, s uint) uint32 {
 }
 
 //Step 4
-func Digest(input []byte) (res [4]uint32) {
+func Digest(A, B, C, D uint32, input []byte) (res [4]uint32) {
 	uintInput := Bytes2Uints(input)
 
 	a := A
@@ -238,7 +238,7 @@ func Digest(input []byte) (res [4]uint32) {
 func Sum(input []byte) (bytes [16]byte) {
 	padded := AddPadding(input)
 	lenAdded := AppendLength(len(input), padded)
-	digest := Digest(lenAdded)
+	digest := Digest(A, B, C, D, lenAdded)
 	bytes = Uint32Bytes(digest)
 	return
 }
