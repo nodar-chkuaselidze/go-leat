@@ -11,6 +11,12 @@ Currently implemented:
 - [ ] sha256
 - [ ] sha512
 
+### Install
+ Only requirement for project is Golang
+ 
+ Run to install: `go get github.com/nodar-chkuaselidze/go-leat/cmd/leat`
+
+
 ### Usage
 You want to extend some md5 hash and know only length of original text, say:
   * text was: `hello`
