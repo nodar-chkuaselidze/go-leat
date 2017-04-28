@@ -14,7 +14,7 @@ Currently implemented:
 You want to extend some md5 hash and know only length of original text, say:
   * text was: `hello`
   * it's md5 is: `5d41402abc4b2a76b9719d911017c592`
-  * We want to extend with: ` world`
+  * We want to extend with: `\x20world` (\x20 is space)
   * length is: 5 (hello)
   * we want to format padding bytes like: `\x0`
   
