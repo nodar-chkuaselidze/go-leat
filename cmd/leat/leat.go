@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -15,10 +16,6 @@ func main() {
 	app.Usage = "Golang Length Extention Attacks"
 	app.Version = "0.1.0"
 	app.HideVersion = true
-	app.Action = func(c *cli.Context) error {
-		fmt.Println("simple app")
-		return nil
-	}
 	app.Commands = commands()
 
 	app.Run(os.Args)
@@ -37,7 +34,7 @@ func commands() cli.Commands {
 				length, err := strconv.ParseInt(args.Get(0), 10, 32)
 
 				if err != nil {
-					return err
+					return errors.New("Couldn't parse length")
 				}
 
 				hash, extendWith, err := leat.Fn(int(length), hash, extend, fprint)
