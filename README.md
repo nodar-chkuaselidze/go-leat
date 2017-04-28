@@ -1,7 +1,8 @@
 go-leat
 ====
 
-Tools for extending length for Hash functions based on Merkle-Damgård constructions(md5, sha-1,
+Tools for [extending length](https://en.wikipedia.org/wiki/Length_extension_attack)
+for Hash functions based on Merkle-Damgård constructions(md5, sha-1,
 sha-2)
 
 Currently implemented:
